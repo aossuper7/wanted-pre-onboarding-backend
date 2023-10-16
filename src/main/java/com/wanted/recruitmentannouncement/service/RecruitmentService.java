@@ -45,4 +45,14 @@ public class RecruitmentService {
         ads.setCountry(dto.getCountry());
         ads.setRegion(dto.getRegion());
     }
+
+    /**
+     * 채용공고 삭제 Service
+     * @param id
+     */
+    public void deleteRecruitment(long id) {
+        RecruitmentAds ads = recruitmentAdsRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_RECRUITMENT));
+        recruitmentAdsRepository.delete(ads);
+    }
 }
