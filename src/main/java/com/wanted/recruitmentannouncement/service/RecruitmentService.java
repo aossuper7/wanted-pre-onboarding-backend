@@ -1,5 +1,6 @@
 package com.wanted.recruitmentannouncement.service;
 
+import com.wanted.recruitmentannouncement.dto.RecruitmentDetailDto;
 import com.wanted.recruitmentannouncement.dto.RecruitmentDto;
 import com.wanted.recruitmentannouncement.dto.RecruitmentListDto;
 import com.wanted.recruitmentannouncement.entity.RecruitmentAds;
@@ -67,11 +68,11 @@ public class RecruitmentService {
     public List<RecruitmentListDto> getAllRecruitment() {
         List<RecruitmentAds> adsList = recruitmentAdsRepository.findAll();
         return adsList.stream()
-                .map(this::convertToRecruitmentDto)
+                .map(this::convertToRecruitmentListDto)
                 .collect(Collectors.toList());
     }
 
-    private RecruitmentListDto convertToRecruitmentDto(RecruitmentAds ads) {
+    private RecruitmentListDto convertToRecruitmentListDto(RecruitmentAds ads) {
         RecruitmentListDto dto = new RecruitmentListDto();
         dto.setId(ads.getId());
         dto.setCompanyId(ads.getCompanyId());
@@ -90,7 +91,47 @@ public class RecruitmentService {
     public List<RecruitmentListDto> searchRecruitment(String keyword) {
         List<RecruitmentAds> adsList = recruitmentAdsRepository.searchByKeyword(keyword);
         return adsList.stream()
-                .map(this::convertToRecruitmentDto)
+                .map(this::convertToRecruitmentListDto)
                 .collect(Collectors.toList());
+    }
+
+    public RecruitmentDetailDto getRecruitmentDetail(long id) {
+        RecruitmentAds mainAds = recruitmentAdsRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_RECRUITMENT));
+
+        List<RecruitmentAds> otherAdsList = recruitmentAdsRepository.findByCompanyIdAndIdNot(mainAds.getCompanyId(), id);
+
+        RecruitmentDetailDto detailDto = convertMainAdsToDetailDto(mainAds);
+        detailDto.setOtherRecruitments(otherAdsList.stream()
+                .map(this::convertToRecruitmentDto)
+                .collect(Collectors.toList()));
+        return detailDto;
+    }
+
+    private RecruitmentDto convertToRecruitmentDto(RecruitmentAds ads) {
+        RecruitmentDto dto = new RecruitmentDto();
+        dto.setId(ads.getId());
+        dto.setCompanyId(ads.getCompanyId());
+        dto.setJobPosition(ads.getJobPosition());
+        dto.setRewardAmount(ads.getRewardAmount());
+        dto.setCompanyName(ads.getCompanyName());
+        dto.setTechnologiesUsed(ads.getTechnologiesUsed());
+        dto.setJobDescription(ads.getJobDescription());
+        dto.setCountry(ads.getCountry());
+        dto.setRegion(ads.getRegion());
+        return dto;
+    }
+
+    private RecruitmentDetailDto convertMainAdsToDetailDto(RecruitmentAds mainAds) {
+        RecruitmentDetailDto dto = new RecruitmentDetailDto();
+        dto.setCompanyId(mainAds.getCompanyId());
+        dto.setJobPosition(mainAds.getJobPosition());
+        dto.setRewardAmount(mainAds.getRewardAmount());
+        dto.setCompanyName(mainAds.getCompanyName());
+        dto.setTechnologiesUsed(mainAds.getTechnologiesUsed());
+        dto.setJobDescription(mainAds.getJobDescription());
+        dto.setCountry(mainAds.getCountry());
+        dto.setRegion(mainAds.getRegion());
+        return dto;
     }
 }

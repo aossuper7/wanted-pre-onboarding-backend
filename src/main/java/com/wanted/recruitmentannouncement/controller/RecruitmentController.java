@@ -1,5 +1,6 @@
 package com.wanted.recruitmentannouncement.controller;
 
+import com.wanted.recruitmentannouncement.dto.RecruitmentDetailDto;
 import com.wanted.recruitmentannouncement.dto.RecruitmentDto;
 import com.wanted.recruitmentannouncement.dto.RecruitmentListDto;
 import com.wanted.recruitmentannouncement.service.RecruitmentService;
@@ -66,5 +67,10 @@ public class RecruitmentController {
     @GetMapping("/recruitment/search")
     public ResponseResult<List<RecruitmentListDto>> searchRecruitment(String keyword) {
         return new ResponseResult<>(recruitmentService.searchRecruitment(keyword));
+    }
+
+    @GetMapping("/recruitment/{id}/detail")
+    public ResponseResult<RecruitmentDetailDto> getRecruitmentDetail(@PathVariable long id) {
+        return new ResponseResult<>(recruitmentService.getRecruitmentDetail(id));
     }
 }

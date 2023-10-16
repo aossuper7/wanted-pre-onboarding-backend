@@ -14,4 +14,6 @@ public interface RecruitmentAdsRepository extends JpaRepository<RecruitmentAds, 
             "r.jobPosition like %:keyword% or " +
             "r.technologiesUsed like %:keyword%")
     List<RecruitmentAds> searchByKeyword(@Param("keyword") String keyword);
+
+    List<RecruitmentAds> findByCompanyIdAndIdNot(String companyId, Long id);
 }

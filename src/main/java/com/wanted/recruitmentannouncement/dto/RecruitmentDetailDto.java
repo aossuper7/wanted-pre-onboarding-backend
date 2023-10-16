@@ -1,14 +1,13 @@
 package com.wanted.recruitmentannouncement.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
-public class RecruitmentDto {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Long id;
+public class RecruitmentDetailDto {
     private String companyId;
     private String jobPosition;
     private Long rewardAmount;
@@ -17,4 +16,5 @@ public class RecruitmentDto {
     private String jobDescription;
     private String country;
     private String region;
+    private List<RecruitmentDto> otherRecruitments;
 }
