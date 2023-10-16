@@ -5,9 +5,7 @@ import com.wanted.recruitmentannouncement.service.RecruitmentService;
 import com.wanted.response.ResponseResult;
 import com.wanted.response.ResponseStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,6 +15,12 @@ public class RecruitmentController {
     @PostMapping("/recruitment/s")
     public ResponseResult<ResponseStatus> saveRecruitment(@RequestBody RecruitmentDto dto) {
         recruitmentService.saveRecruitment(dto);
+        return new ResponseResult<>(ResponseStatus.SUCCESS);
+    }
+
+    @PatchMapping("/recruitment/{id}/u")
+    public ResponseResult<ResponseStatus> updateRecruitment(@PathVariable long id, @RequestBody RecruitmentDto  dto) {
+        recruitmentService.updateRecruitment(id, dto);
         return new ResponseResult<>(ResponseStatus.SUCCESS);
     }
 }
