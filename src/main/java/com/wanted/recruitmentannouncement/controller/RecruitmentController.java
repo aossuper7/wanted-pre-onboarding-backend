@@ -50,11 +50,21 @@ public class RecruitmentController {
     }
 
     /**
-     * 채용공고 목록 가져오기 API능
+     * 채용공고 목록 가져오기 API
      * @return
      */
     @GetMapping("/recruitment/all")
     public ResponseResult<List<RecruitmentListDto>> getAllRecruitment() {
         return new ResponseResult<>(recruitmentService.getAllRecruitment());
+    }
+
+    /**
+     * 채용공고 검색 API
+     * @param keyword
+     * @return
+     */
+    @GetMapping("/recruitment/search")
+    public ResponseResult<List<RecruitmentListDto>> searchRecruitment(String keyword) {
+        return new ResponseResult<>(recruitmentService.searchRecruitment(keyword));
     }
 }

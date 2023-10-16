@@ -65,8 +65,8 @@ public class RecruitmentService {
      * @return
      */
     public List<RecruitmentListDto> getAllRecruitment() {
-        List<RecruitmentAds> ads = recruitmentAdsRepository.findAll();
-        return ads.stream()
+        List<RecruitmentAds> adsList = recruitmentAdsRepository.findAll();
+        return adsList.stream()
                 .map(this::convertToRecruitmentDto)
                 .collect(Collectors.toList());
     }
@@ -80,5 +80,17 @@ public class RecruitmentService {
         dto.setCompanyName(ads.getCompanyName());
         dto.setTechnologiesUsed(ads.getTechnologiesUsed());
         return dto;
+    }
+
+    /**
+     * 채용공고 검색 Service
+     * @param keyword
+     * @return
+     */
+    public List<RecruitmentListDto> searchRecruitment(String keyword) {
+        List<RecruitmentAds> adsList = recruitmentAdsRepository.searchByKeyword(keyword);
+        return adsList.stream()
+                .map(this::convertToRecruitmentDto)
+                .collect(Collectors.toList());
     }
 }
