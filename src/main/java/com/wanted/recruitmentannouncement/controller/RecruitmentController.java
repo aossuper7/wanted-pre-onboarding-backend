@@ -1,11 +1,14 @@
 package com.wanted.recruitmentannouncement.controller;
 
 import com.wanted.recruitmentannouncement.dto.RecruitmentDto;
+import com.wanted.recruitmentannouncement.dto.RecruitmentListDto;
 import com.wanted.recruitmentannouncement.service.RecruitmentService;
 import com.wanted.response.ResponseResult;
 import com.wanted.response.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,5 +47,14 @@ public class RecruitmentController {
     public ResponseResult<ResponseStatus> deleteRecruitment(@PathVariable long id) {
         recruitmentService.deleteRecruitment(id);
         return new ResponseResult<>(ResponseStatus.SUCCESS);
+    }
+
+    /**
+     * 채용공고 목록 가져오기 API능
+     * @return
+     */
+    @GetMapping("/recruitment/all")
+    public ResponseResult<List<RecruitmentListDto>> getAllRecruitment() {
+        return new ResponseResult<>(recruitmentService.getAllRecruitment());
     }
 }

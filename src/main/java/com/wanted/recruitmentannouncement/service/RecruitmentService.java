@@ -1,12 +1,16 @@
 package com.wanted.recruitmentannouncement.service;
 
 import com.wanted.recruitmentannouncement.dto.RecruitmentDto;
+import com.wanted.recruitmentannouncement.dto.RecruitmentListDto;
 import com.wanted.recruitmentannouncement.entity.RecruitmentAds;
 import com.wanted.recruitmentannouncement.exception.NotFoundException;
 import com.wanted.recruitmentannouncement.repository.RecruitmentAdsRepository;
 import com.wanted.response.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,5 +58,27 @@ public class RecruitmentService {
         RecruitmentAds ads = recruitmentAdsRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_RECRUITMENT));
         recruitmentAdsRepository.delete(ads);
+    }
+
+    /**
+     * 채용공고 목록 가져오기 Service
+     * @return
+     */
+    public List<RecruitmentListDto> getAllRecruitment() {
+        List<RecruitmentAds> ads = recruitmentAdsRepository.findAll();
+        return ads.stream()
+                .map(this::convertToRecruitmentDto)
+                .collect(Collectors.toList());
+    }
+
+    private RecruitmentListDto convertToRecruitmentDto(RecruitmentAds ads) {
+        RecruitmentListDto dto = new RecruitmentListDto();
+        dto.setId(ads.getId());
+        dto.setCompanyId(ads.getCompanyId());
+        dto.setJobPosition(ads.getJobPosition());
+        dto.setRewardAmount(ads.getRewardAmount());
+        dto.setCompanyName(ads.getCompanyName());
+        dto.setTechnologiesUsed(ads.getTechnologiesUsed());
+        return dto;
     }
 }
