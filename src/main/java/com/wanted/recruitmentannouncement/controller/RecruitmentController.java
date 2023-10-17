@@ -5,7 +5,7 @@ import com.wanted.recruitmentannouncement.dto.RecruitmentDto;
 import com.wanted.recruitmentannouncement.dto.RecruitmentListDto;
 import com.wanted.recruitmentannouncement.service.RecruitmentService;
 import com.wanted.response.ResponseResult;
-import com.wanted.response.ResponseStatus;
+import com.wanted.response.ResponseStatusValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +22,9 @@ public class RecruitmentController {
      * @return
      */
     @PostMapping("/recruitment/s")
-    public ResponseResult<ResponseStatus> saveRecruitment(@RequestBody RecruitmentDto dto) {
+    public ResponseResult<ResponseStatusValue> saveRecruitment(@RequestBody RecruitmentDto dto) {
         recruitmentService.saveRecruitment(dto);
-        return new ResponseResult<>(ResponseStatus.SUCCESS);
+        return new ResponseResult<>(ResponseStatusValue.SUCCESS);
     }
 
     /**
@@ -34,9 +34,9 @@ public class RecruitmentController {
      * @return
      */
     @PatchMapping("/recruitment/{id}/u")
-    public ResponseResult<ResponseStatus> updateRecruitment(@PathVariable long id, @RequestBody RecruitmentDto  dto) {
+    public ResponseResult<ResponseStatusValue> updateRecruitment(@PathVariable long id, @RequestBody RecruitmentDto  dto) {
         recruitmentService.updateRecruitment(id, dto);
-        return new ResponseResult<>(ResponseStatus.SUCCESS);
+        return new ResponseResult<>(ResponseStatusValue.SUCCESS);
     }
 
     /**
@@ -45,9 +45,9 @@ public class RecruitmentController {
      * @return
      */
     @DeleteMapping("/recruitment/{id}/d")
-    public ResponseResult<ResponseStatus> deleteRecruitment(@PathVariable long id) {
+    public ResponseResult<ResponseStatusValue> deleteRecruitment(@PathVariable long id) {
         recruitmentService.deleteRecruitment(id);
-        return new ResponseResult<>(ResponseStatus.SUCCESS);
+        return new ResponseResult<>(ResponseStatusValue.SUCCESS);
     }
 
     /**
@@ -69,6 +69,11 @@ public class RecruitmentController {
         return new ResponseResult<>(recruitmentService.searchRecruitment(keyword));
     }
 
+    /**
+     * 채용공고 상세페이지 API
+     * @param id
+     * @return
+     */
     @GetMapping("/recruitment/{id}/detail")
     public ResponseResult<RecruitmentDetailDto> getRecruitmentDetail(@PathVariable long id) {
         return new ResponseResult<>(recruitmentService.getRecruitmentDetail(id));

@@ -4,10 +4,10 @@ import com.wanted.response.ResponseStatusValue;
 import lombok.Getter;
 
 @Getter
-public class NotFoundException extends RuntimeException {
+public class DuplicateException extends RuntimeException {
     private ResponseStatusValue status;
 
-    public NotFoundException(ResponseStatusValue status) {
+    public DuplicateException(ResponseStatusValue status) {
         super(status.getMessage());
         this.status = status;
     }

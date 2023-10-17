@@ -6,7 +6,7 @@ import com.wanted.recruitmentannouncement.dto.RecruitmentListDto;
 import com.wanted.recruitmentannouncement.entity.RecruitmentAds;
 import com.wanted.recruitmentannouncement.exception.NotFoundException;
 import com.wanted.recruitmentannouncement.repository.RecruitmentAdsRepository;
-import com.wanted.response.ResponseStatus;
+import com.wanted.response.ResponseStatusValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,7 @@ public class RecruitmentService {
      */
     public void updateRecruitment(long id, RecruitmentDto dto) {
         RecruitmentAds ads = recruitmentAdsRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_RECRUITMENT));
+                .orElseThrow(() -> new NotFoundException(ResponseStatusValue.NOT_FOUND_RECRUITMENT));
 
         toRecruitmentAds(ads, dto);
         recruitmentAdsRepository.save(ads);
@@ -57,7 +57,7 @@ public class RecruitmentService {
      */
     public void deleteRecruitment(long id) {
         RecruitmentAds ads = recruitmentAdsRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_RECRUITMENT));
+                .orElseThrow(() -> new NotFoundException(ResponseStatusValue.NOT_FOUND_RECRUITMENT));
         recruitmentAdsRepository.delete(ads);
     }
 
@@ -95,9 +95,14 @@ public class RecruitmentService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 채용 상세페이지 가져오기 Service
+     * @param id
+     * @return
+     */
     public RecruitmentDetailDto getRecruitmentDetail(long id) {
         RecruitmentAds mainAds = recruitmentAdsRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ResponseStatus.NOT_FOUND_RECRUITMENT));
+                .orElseThrow(() -> new NotFoundException(ResponseStatusValue.NOT_FOUND_RECRUITMENT));
 
         List<RecruitmentAds> otherAdsList = recruitmentAdsRepository.findByCompanyIdAndIdNot(mainAds.getCompanyId(), id);
 

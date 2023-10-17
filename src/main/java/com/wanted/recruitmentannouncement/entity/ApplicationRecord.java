@@ -3,6 +3,7 @@ package com.wanted.recruitmentannouncement.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Entity
@@ -18,5 +19,10 @@ public class ApplicationRecord {
     @ManyToOne
     @JoinColumn(name = "recruitment_ads")
     private RecruitmentAds recruitmentAds;
+
+    public ApplicationRecord(Member member, RecruitmentAds ads) {
+        this.member = member;
+        this.recruitmentAds = ads;
+    }
 
 }
