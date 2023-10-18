@@ -1,6 +1,7 @@
 # wanted-pre-onboarding-backend
 
 Java & Spring Boot
+
 JPA & MySql
 
 ### Entity
